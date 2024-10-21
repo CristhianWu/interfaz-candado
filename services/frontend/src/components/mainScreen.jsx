@@ -4,8 +4,22 @@ import './MainScreen.css';
 const MainScreen = () => {
   const [isOn, setIsOn] = useState(false);
 
-  const toggleButton = () => {
-    setIsOn(!isOn);
+  const toggleButton = async () => {
+    const newIsOn = !isOn;
+    setIsOn(newIsOn);
+
+    // Cambia la IP por la dirección IP de tu ESP32
+    const esp32Url = `http://192.168.50.202/${newIsOn ? 'H' : 'L'}`;
+
+    try {
+      // Enviar solicitud HTTP al ESP32 para encender/apagar el LED
+      const response = await fetch(esp32Url);
+      if (!response.ok) {
+        throw new Error('Error en la solicitud');
+      }
+    } catch (error) {
+      console.error('Hubo un problema con la conexión:', error);
+    }
   };
 
   return (
