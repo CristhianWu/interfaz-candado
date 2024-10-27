@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './MainScreen.css';
+import './mainScreen.css';
 
 const MainScreen = () => {
   const [isOn, setIsOn] = useState(false);
