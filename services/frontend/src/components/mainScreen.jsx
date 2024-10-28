@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useAuth } from '../auth/authContext';
 import './mainScreen.css';
 
 const MainScreen = () => {
+  const {logout} = useAuth();
+
   const [isOn, setIsOn] = useState(false);
 
   const toggleButton = async () => {
@@ -31,6 +34,7 @@ const MainScreen = () => {
       >
         {isOn ? 'Encendido' : 'Apagado'}
       </button>
+      <button onClick={logout}>Logout</button>
     </div>
   );
 };

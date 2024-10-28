@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../auth/authContext';
 
 const LoginScreen = () => {
-    const history = useHistory();
+    const { login } = useAuth();  // Usa el contexto de autenticación
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -12,23 +13,25 @@ const LoginScreen = () => {
         e.preventDefault();
         setError(''); // Resetea el error en cada intento
 
-        const response = await fetch('http://localhost:8000/api/login/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
-        });
+        try {
+            const response = await fetch('http://localhost:8000/login/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
 
-        if (response.ok) {
-            const data = await response.json();
-            // Guarda el token en localStorage o en un contexto global
-            localStorage.setItem('token', data.token);
-            // Redirigir al usuario a la página de inicio o donde desees
-            history.push('/home'); // Cambia '/home' a la ruta que desees
-        } else {
-            const errorData = await response.json();
-            setError(errorData.error || 'Login failed'); // Muestra un mensaje de error
+            if (response.ok) {
+                const data = await response.json();
+                login(data.token); // Guarda el token usando el contexto
+                navigate('/home'); // Redirige al usuario después de iniciar sesión
+            } else {
+                const errorData = await response.json();
+                setError(errorData.error || 'Login failed'); // Muestra un mensaje de error
+            }
+        } catch (err) {
+            setError('An error occurred. Please try again.');
         }
     };
 
