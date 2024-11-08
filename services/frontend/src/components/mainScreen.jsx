@@ -11,7 +11,7 @@ const MainScreen = () => {
     const newIsOn = !isOn;
     setIsOn(newIsOn);
 
-    // Cambia la IP por la dirección IP de tu ESP32
+    // Cambia la IP por la dirección IP de tu ESP32 dependiendo de a donde este conectado
     const esp32Url = `http://192.168.50.202/${newIsOn ? 'H' : 'L'}`;
 
     try {
@@ -32,7 +32,7 @@ const MainScreen = () => {
         className={isOn ? 'button-on' : 'button-off'} 
         onClick={toggleButton}
       >
-        {isOn ? 'Encendido' : 'Apagado'}
+        {isOn ? 'Abierto' : 'Cerrado'}
       </button>
       <button onClick={logout}>Logout</button>
     </div>
