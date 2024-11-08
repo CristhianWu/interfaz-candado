@@ -13,7 +13,7 @@ const MainScreen = () => {
 
     // Cambia la IP por la dirección IP de tu ESP32 dependiendo de a donde este conectado
     const esp32Url = `http://192.168.50.202/${newIsOn ? 'H' : 'L'}`;
-
+f
     try {
       // Enviar solicitud HTTP al ESP32 para encender/apagar el LED
       const response = await fetch(esp32Url);
